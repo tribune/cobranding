@@ -1,0 +1,69 @@
+= Cobranding
+
+This gem allows you too pull marked up HTML from a URL and use it as a layout in a Rails view.
+
+== Fetching the layout
+
+To fetch the layout from a service, you can cal
+
+  Cobranding::Layout.get(url, options)
+
+Where +url+ and +options+ are values passed to +SimpleHttpClient+. Additional options available are
+
+* base_url: set the base url for expanding any relative URLs in the markup
+* method: set to :post to perform a POST instead of a GET request
+
+== Caching
+
+If you specify +:ttl+ in the options, the layout will be cached for that many seconds. The cache algorithm also tries to prevent race conditions when the cache expires. Using it can greatly reduce load on the servers.
+
+You must use a Rails.cache that supports +:expires_in+ on writes to the cache. In Rails 2 the only out of the box cache that will work properly is MemCacheStore.
+
+== Markup
+
+The HTML markup in the layout cannot contain any ERB code (<% %>). If any is found, it will be escaped.
+
+You can put limited markup into the HTML using {{ }} style tags. These tags must be exactly one word and will trigger calling helper methods like *_for_cobranding.
+
+=== Example
+
+  <html>
+    <head>
+      <title>{{ page_title }}</title>
+      {{ stylesheets }}
+    </head>
+    <body>
+      {{ content }}
+    </body>
+  </html>
+
+The tags in this layout will result in calls to
+
+* page_title_for_cobranding
+* stylesheets_for_cobranding
+* content_for_cobranding
+
+If any of these helper methods aren't defined, they will be silently ignored. If you need a different naming convention for you helper methods, you can pass in a :prefix or :suffix option to the +evaluate+ or +cobranding_layout+ helper call.
+
+== Using in a view
+
+The gem automatically adds a universal helper method that allows you to call the layout. It should be added to a regular old layout view like this:
+
+  <%= cobranding_layout(url, options) do %>
+    <html>
+      <head>
+        <title><%= page_title_for_cobranding %></title>
+        <%= stylesheets_for_cobranding %>
+      </head>
+      <body>
+        <div id="warning">Warning the layout was not available!</div>
+        <%= content_for_cobranding %>
+      </body>
+    </html>
+  <% end %>
+
+If the tag includes a block, it will only be called if there was an error evaluating the template. This way, you can provide a default failsafe layout in case the layout service is unavailable. Providing one will keep your site up in this case and can also serve as documentation for what the layouts are expected to look like and what tags they should use.
+
+== Persisting
+
+If you have layouts that don't need to be real time, you can persist them to a data store and update them asynchronously via a background job. You simply need to include Cobranding::PersistentLayout in your model. To render the layout, you can then pass in model.layout to the cobranding_layout helper instead of a URL.
