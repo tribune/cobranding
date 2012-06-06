@@ -22,7 +22,7 @@ begin
     gem.summary = %Q{Provides Rails view layouts from an HTTP service}
     gem.description = %Q{Provides Rails view layouts from an HTTP service.}
     gem.authors = ["Brian Durand"]
-    gem.email = ["bdurand@tribune.com"]
+    gem.email = ["mdobrota@tribune.com", "ddpr@tribune.com"]
     gem.files = FileList["lib/**/*", "spec/**/*", "README.rdoc", "Rakefile", "License.txt"].to_a
     gem.has_rdoc = true
     gem.rdoc_options << '--line-numbers' << '--inline-source' << '--main' << 'README.rdoc'
@@ -32,5 +32,6 @@ begin
     gem.add_development_dependency('rspec', '>= 2.0.0')
     gem.add_development_dependency('webmock')
   end
+  Jeweler::RubygemsDotOrgTasks.new
 rescue LoadError
 end

@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = "cobranding"
-  s.version = "1.2.1"
+  s.version = "1.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Brian Durand"]
-  s.date = "2012-06-05"
+  s.date = "2012-06-06"
   s.description = "Provides Rails view layouts from an HTTP service."
-  s.email = ["bdurand@tribune.com"]
+  s.email = ["mdobrota@tribune.com", "ddpr@tribune.com"]
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
