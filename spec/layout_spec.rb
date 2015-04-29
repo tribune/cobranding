@@ -9,7 +9,7 @@ describe Cobranding::Layout do
     end
     
     cache = ActiveSupport::Cache::MemoryStore.new
-    Rails.stub!(:cache).and_return(cache)
+    Rails.stub(:cache).and_return(cache)
   end
 
   it "should be able to evaluate a template from HTML" do
@@ -91,7 +91,7 @@ describe Cobranding::Layout do
   
   it "should be able to get a layout from a URL without caching" do
     stub_request(:get, "localhost/layout?site=1").to_return(:status => [200, "Success"], :body => "<html>{{test_tag}}</html>")
-    Rails.stub!(:cache).and_return(nil)
+    Rails.stub(:cache).and_return(nil)
     layout = Cobranding::Layout.get("http://localhost/layout", :params => {:site => 1})
     layout.evaluate(@context).should == "<html>Woo woo</html>"
   end

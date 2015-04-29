@@ -1,9 +1,6 @@
-require 'rubygems'
 require 'logger'
 require 'webmock/rspec'
-rails_version = ENV["RAILS_VERSION"] || ">=3.0.5"
-gem 'activesupport', rails_version
-gem 'actionpack', rails_version
+
 begin
   require 'simplecov'
   SimpleCov.start do

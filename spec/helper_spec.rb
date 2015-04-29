@@ -30,7 +30,7 @@ describe Cobranding::Helper do
   
   before :each do
     cache = ActiveSupport::Cache::MemoryStore.new
-    Rails.stub!(:cache).and_return(cache)
+    Rails.stub(:cache).and_return(cache)
   end
   
   it "should render a layout in a view with a Layout" do

@@ -1,5 +1,3 @@
-ENV['gem_push'] = 'false' # Prevent releasing internal gem to RubyGems
-
 require 'bundler/gem_tasks'
 require 'bundler/setup'
 require 'pathname'
