@@ -13,7 +13,7 @@ module Cobranding
     UNQUOTED_RELATIVE_URL = /(<\w+\s((src)|(href))=)\/(.*?)(>|(\s[^>]*?>))/i
     
     class << self
-      # Get the layout HTML from a service. The options can be any of the options accepted by SimpleHttpClient
+      # Get the layout HTML from a service. The options can be any of the options accepted by RestClient
       # or +:base_url+. Any relative URLs found in the HTML will be expanded to absolute URLs using either the
       # +:base_url+ option or the +url+ as the base.
       #

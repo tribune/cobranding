@@ -8,7 +8,7 @@ To fetch the layout from a service, you can call
 
   Cobranding::Layout.get(url, options)
 
-Where +url+ and +options+ are values passed to +SimpleHttpClient+. Additional options available are
+Where +url+ and +options+ are values passed to +RestClient+. Additional options available are
 
 * base_url: set the base url for expanding any relative URLs in the markup
 * method: set to :post to perform a POST instead of a GET request
