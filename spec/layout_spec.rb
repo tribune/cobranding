@@ -148,4 +148,12 @@ describe Cobranding::Layout do
     end
     layout.evaluate(@context).should == "this is Woo woo stuff"
   end
+
+  it "returns a UTF-8 encoded string" do
+    layout = Cobranding::Layout.new("<html>Test</html>")
+    expect(layout.evaluate(@context).encoding.name).to eq 'UTF-8'
+    unless Gem::Requirement.new('~> 1.9.1').satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
+      warn "Please also run this test on ruby 1.9 (#{File.basename(__FILE__)}:#{__LINE__})."
+    end
+  end
 end

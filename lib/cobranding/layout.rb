@@ -1,3 +1,6 @@
+# coding: utf-8
+# NOTE this file should be in utf-8 encoding so #evaluate generates a string with
+# this encoding. Otherwise on ruby 1.9 it'll be US-ASCII.
 require 'erb'
 require 'digest/md5'
 require 'rest-client'
@@ -172,6 +175,8 @@ module Cobranding
         suffix = options[:suffix] if options
         suffix = "_for_cobranding" unless prefix or suffix
         evaluator = Object.new
+        # "src" is erb code, which contains the code `force_encoding(__ENCODING__)`.
+        # __ENCODING__ is the current file's encoding (see magic comment above).
         eval <<-EOS
           def evaluator.evaluate
             #{src}

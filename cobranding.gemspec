@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cobranding/version'
 Gem::Specification.new do |spec|
   spec.name          = 'cobranding'
-  spec.version       = Cobranding::VERSION
+  spec.version       = Cobranding::VERSION.dup  # dup for 1.9's rubygems
   spec.authors       = ['Brian Durand', 'Milan Dobrota']
   spec.email         = ['mdobrota@tribpub.com']
   spec.summary       = 'Provides Rails view layouts from an HTTP service'
