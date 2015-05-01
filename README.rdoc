@@ -4,11 +4,11 @@ This gem allows you too pull marked up HTML from a URL and use it as a layout in
 
 == Fetching the layout
 
-To fetch the layout from a service, you can cal
+To fetch the layout from a service, you can call
 
   Cobranding::Layout.get(url, options)
 
-Where +url+ and +options+ are values passed to +SimpleHttpClient+. Additional options available are
+Where +url+ and +options+ are values passed to +RestClient+. Additional options available are
 
 * base_url: set the base url for expanding any relative URLs in the markup
 * method: set to :post to perform a POST instead of a GET request
@@ -67,3 +67,7 @@ If the tag includes a block, it will only be called if there was an error evalua
 == Persisting
 
 If you have layouts that don't need to be real time, you can persist them to a data store and update them asynchronously via a background job. You simply need to include Cobranding::PersistentLayout in your model. To render the layout, you can then pass in model.layout to the cobranding_layout helper instead of a URL.
+
+== Limitations
+
+The result of Cobranding::Helper#cobranding_layout (or Cobranding::Layout#evaluate) will be a string with UTF-8 encoding, regardless of the encoding reported by the server. If you need the result to be a different encoding, you can call force_encoding on the result.

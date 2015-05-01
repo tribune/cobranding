@@ -9,7 +9,7 @@ describe Cobranding::Layout do
     end
     
     cache = ActiveSupport::Cache::MemoryStore.new
-    Rails.stub!(:cache).and_return(cache)
+    Rails.stub(:cache).and_return(cache)
   end
 
   it "should be able to evaluate a template from HTML" do
@@ -84,14 +84,14 @@ describe Cobranding::Layout do
   end
 
   it "should be able to get a layout from a URL with a POST" do
-    stub_request(:post, "localhost/layout").with(:params => {"site" => "1"}, :headers => {'Content-Type'=>'application/x-www-form-urlencoded'}).to_return(:status => [200, "Success"], :body => "<html>{{test_tag}}</html>")
+    stub_request(:post, "localhost/layout").with(:body => {"site" => "1"}, :headers => {'Content-Type'=>'application/x-www-form-urlencoded'}).to_return(:status => [200, "Success"], :body => "<html>{{test_tag}}</html>")
     layout = Cobranding::Layout.get("http://localhost/layout", :method => :post, :site => 1)
     layout.evaluate(@context).should == "<html>Woo woo</html>"
   end
   
   it "should be able to get a layout from a URL without caching" do
     stub_request(:get, "localhost/layout?site=1").to_return(:status => [200, "Success"], :body => "<html>{{test_tag}}</html>")
-    Rails.stub!(:cache).and_return(nil)
+    Rails.stub(:cache).and_return(nil)
     layout = Cobranding::Layout.get("http://localhost/layout", :params => {:site => 1})
     layout.evaluate(@context).should == "<html>Woo woo</html>"
   end
@@ -147,5 +147,13 @@ describe Cobranding::Layout do
       code.gsub(/<!--#\s*include\s+virtual="([^"]+)"\s*-->/, '{{ \1 }}')
     end
     layout.evaluate(@context).should == "this is Woo woo stuff"
+  end
+
+  it "returns a UTF-8 encoded string" do
+    layout = Cobranding::Layout.new("<html>Test</html>")
+    expect(layout.evaluate(@context).encoding.name).to eq 'UTF-8'
+    unless Gem::Requirement.new('~> 1.9.1').satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
+      warn "Please also run this test on ruby 1.9 (#{File.basename(__FILE__)}:#{__LINE__})."
+    end
   end
 end
