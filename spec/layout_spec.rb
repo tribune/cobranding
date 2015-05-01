@@ -84,7 +84,7 @@ describe Cobranding::Layout do
   end
 
   it "should be able to get a layout from a URL with a POST" do
-    stub_request(:post, "localhost/layout").with(:params => {"site" => "1"}, :headers => {'Content-Type'=>'application/x-www-form-urlencoded'}).to_return(:status => [200, "Success"], :body => "<html>{{test_tag}}</html>")
+    stub_request(:post, "localhost/layout").with(:body => {"site" => "1"}, :headers => {'Content-Type'=>'application/x-www-form-urlencoded'}).to_return(:status => [200, "Success"], :body => "<html>{{test_tag}}</html>")
     layout = Cobranding::Layout.get("http://localhost/layout", :method => :post, :site => 1)
     layout.evaluate(@context).should == "<html>Woo woo</html>"
   end

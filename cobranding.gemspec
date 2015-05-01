@@ -17,10 +17,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'actionpack', '>= 3.2', '< 4.3'
-  spec.add_runtime_dependency 'rest-client', '>= 0'
+  spec.add_runtime_dependency 'rest-client', '~> 1.6'
 
   spec.add_development_dependency 'rspec', '~> 2.99'
-  spec.add_development_dependency 'webmock', '~> 1.7.7'
+  spec.add_development_dependency 'webmock', '~> 1.21.0'
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'appraisal'
